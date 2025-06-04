@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Resume Tailoring System</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>AI Resume Tailoring System</h1>
+      <p>Upload your resume, paste a job description, and get a perfectly tailored resume</p>
+    </div>
+    
+    <div class="main-content">
+      <!-- API Key Section -->
+      <div class="section">
+        <h2>
+          <svg class="icon" viewBox="0 0 20 20"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/></svg>
+          API Configuration
+        </h2>
+        <div class="input-group">
+          <label for="apiKey">OpenAI API Key:</label>
+          <input type="password" id="apiKey" placeholder="sk-..." />
+          <small style="color: #6c757d; margin-top: 0.5rem; display: block;">
+            Your key is stored locally and only sent to OpenAI
+          </small>
+        </div>
+      </div>
+      
+      <!-- Resume Upload Section -->
+      <div class="section">
+        <h2>
+          <svg class="icon" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+          Upload Your Resume
+        </h2>
+        <div class="input-group">
+          <label for="resumeFile">Select Resume File:</label>
+          <input type="file" id="resumeFile" accept=".pdf,.doc,.docx,.txt" />
+          <small style="color: #6c757d; margin-top: 0.5rem; display: block;">
+            Supports PDF, DOC, DOCX, and TXT files
+          </small>
+        </div>
+        <div class="file-info" id="fileInfo">
+          <h4>📄 File Parsed Successfully</h4>
+          <p><strong>File:</strong> <span id="fileName"></span></p>
+          <p><strong>Size:</strong> <span id="fileSize"></span></p>
+          <div class="resume-preview" id="resumePreview"></div>
+        </div>
+      </div>
+      
+      <!-- Job Description Section -->
+      <div class="section">
+        <h2>
+          <svg class="icon" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2h2zm4-3a1 1 0 00-1 1v1h2V4a1 1 0 00-1-1zM4 9v7h12V9H4z" clip-rule="evenodd"/></svg>
+          Job Description
+        </h2>
+        <div class="input-group">
+          <label for="jobDescription">Paste Job Description:</label>
+          <textarea id="jobDescription" placeholder="Paste the complete job description here..."></textarea>
+        </div>
+        <button class="btn" id="analyzeBtn">
+          <svg class="icon" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
+          Analyze Keywords
+        </button>
+      </div>
+      
+      <!-- Keyword Analysis Results -->
+      <div class="section">
+        <h2>
+          <svg class="icon" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/></svg>
+          Keyword Analysis
+        </h2>
+        <div class="keyword-results" id="keywordResults"></div>
+      </div>
+      
+      <!-- Resume Generation Section -->
+      <div class="section full-width generation-section">
+        <h2>🚀 Generate Tailored Resume</h2>
+        <p>AI will analyze your resume and the job description, then create a perfectly tailored version</p>
+        
+        <!-- Template Selection Section -->
+        <div class="template-selection">
+          <h3>Choose a Template</h3>
+          <div class="template-grid">
+            <div class="template-card" data-template="modern">
+              <div class="template-preview modern-preview">
+                <div class="preview-header"></div>
+                <div class="preview-content">
+                  <div class="preview-section"></div>
+                  <div class="preview-bullet"></div>
+                  <div class="preview-bullet"></div>
+                </div>
+              </div>
+              <h4>Modern</h4>
+              <p>Clean and contemporary design with a professional gradient header</p>
+            </div>
+            
+            <div class="template-card" data-template="classic">
+              <div class="template-preview classic-preview">
+                <div class="preview-header"></div>
+                <div class="preview-content">
+                  <div class="preview-section"></div>
+                  <div class="preview-bullet"></div>
+                  <div class="preview-bullet"></div>
+                </div>
+              </div>
+              <h4>Classic</h4>
+              <p>Traditional layout with elegant typography and subtle colors</p>
+            </div>
+            
+            <div class="template-card" data-template="executive">
+              <div class="template-preview executive-preview">
+                <div class="preview-header"></div>
+                <div class="preview-content">
+                  <div class="preview-section"></div>
+                  <div class="preview-bullet"></div>
+                  <div class="preview-bullet"></div>
+                </div>
+              </div>
+              <h4>Executive</h4>
+              <p>Bold and sophisticated design for senior positions</p>
+            </div>
+            
+            <!-- Modern Sidebar Template -->
+            <div class="template-card" data-template="modern-sidebar">
+              <div class="template-preview modern-sidebar-preview">
+                 <div class="preview-sidebar">
+                    <div class="preview-photo"></div>
+                    <div class="preview-section-small"></div>
+                    <div class="preview-text-block"></div>
+                    <div class="preview-section-small"></div>
+                    <div class="preview-text-block"></div>
+                    <div class="preview-section-small"></div>
+                    <div class="preview-bullet-small"></div>
+                    <div class="preview-bullet-small"></div>
+                 </div>
+                 <div class="preview-main-content">
+                    <div class="preview-header-main"></div>
+                    <div class="preview-section-main"></div>
+                    <div class="preview-text-block-main"></div>
+                    <div class="preview-section-main"></div>
+                    <div class="preview-bullet-main"></div>
+                    <div class="preview-bullet-main"></div>
+                    <div class="preview-bullet-main"></div>
+                    <div class="preview-section-main"></div>
+                    <div class="preview-text-block-main"></div>
+                 </div>
+              </div>
+              <h4>Modern Sidebar</h4>
+              <p>Clean two-column layout with prominent sidebar</p>
+            </div>
+
+          </div>
+        </div>
+
+        <button class="btn btn-success" id="generateBtn">
+          <svg class="icon" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.293l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clip-rule="evenodd"/></svg>
+          Generate & Download PDF
+        </button>
+        <div class="loading-spinner" id="loadingSpinner"></div>
+      </div>
+    </div>
+    
+    <div class="message" id="messageBox"></div>
+  </div>
+  
+  <!-- Load required libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
